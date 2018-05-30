@@ -1,0 +1,36 @@
+version: "3"
+services:
+  node1:
+    build: .
+    volumes:
+      - .:/opt/server/
+    command: [ "python", "-u", "/opt/server/main.py", "0.0.0.0", "5001"]
+    ports:
+      - "6001:5001"
+    networks:
+      - backend
+  node2:
+    build: .
+    volumes:
+      - .:/opt/server/
+    command: [ "python", "-u", "/opt/server/main.py", "0.0.0.0", "5002"]
+    ports:
+      - "6002:5002"
+    networks:
+      - backend
+    depends_on:
+      - node1
+  node3:
+    build: .
+    volumes:
+      - .:/opt/server/
+    command: [ "python", "-u", "/opt/server/main.py", "0.0.0.0", "5003"]
+    ports:
+      - "6003:5003"
+    networks:
+      - backend
+    depends_on:
+      - node2
+
+networks:
+  backend:
